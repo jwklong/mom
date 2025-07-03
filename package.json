@@ -1,0 +1,13 @@
+{
+  "name": "mom",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "scripts": {
+    "server": "node server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
