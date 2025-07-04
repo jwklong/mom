@@ -8,6 +8,8 @@ import express from 'express'
 import ejs from 'ejs'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
+const randomHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
+
 function generateKey() {
   const hexDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
 
@@ -59,6 +61,7 @@ const server = http.createServer((req, res) => {
           sKey: generateKey(),
 
           name: params.name,
+          id: randomHex(32),
 
           wogc: {
             ballCount: 0,
