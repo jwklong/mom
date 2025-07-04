@@ -54,7 +54,7 @@ const server = http.createServer((req, res) => {
           res.end("Missing paramaters")
         }
 
-        player = {
+        let player = {
           cKey: params.hwkey,
           sKey: generateKey(),
 
