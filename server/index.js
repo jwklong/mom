@@ -1,5 +1,8 @@
 import http from 'http'
 import crypto from 'crypto'
+import mergeObject from 'lodash.merge'
+import fs from 'fs'
+import path from 'path'
 
 function generateKey() {
   const hexDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
@@ -19,6 +22,14 @@ function generateKey() {
 
 let data = {
   players: []
+}
+
+let importedData = fs.readFileSync(path.join(__dirname, "data.json"), "utf-8")
+if (importedData) {
+  mergeObject(data, JSON.parse(importedData))
+}
+function saveData() {
+  fs.writeFileSync(path.join(__dirname, "data.json"), JSON.stringify(data))
 }
 
 const server = http.createServer((req, res) => {
@@ -54,6 +65,7 @@ const server = http.createServer((req, res) => {
                 }
               }
               data.players.push(player)
+              saveData()
             }
 
             res.statusCode = 200
@@ -78,8 +90,7 @@ const server = http.createServer((req, res) => {
             player.wogc.ballCount = params.ballCount
             player.wogc.ballCountAttached = params.ballCountAttached
             player.wogc.height = params.height
-
-            console.log(data)
+            saveData()
 
             res.statusCode = 200
             res.end()
