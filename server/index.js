@@ -52,7 +52,7 @@ const server = http.createServer((req, res) => {
 
             res.statusCode = 200
             res.setHeader('Content-Type', 'application/xml')
-            res.end(`<WogResponse><playerkey>${player.sKey}</playerkey><name>${player.name}</name><countrycode>GB</countrycode></WogResponse>`)
+            res.end(`<WogResponse result="OK"><playerkey>${player.sKey}</playerkey><name>${player.name}</name><countrycode>GB</countrycode></WogResponse>`)
             break
           }
           default: {
