@@ -45,7 +45,13 @@ const server = http.createServer((req, res) => {
                 cKey: params.hwkey,
                 sKey: generateKey(),
 
-                name: params.name
+                name: params.name,
+
+                wogc: {
+                  ballCount: 0,
+                  ballCountAttached: 0,
+                  height: 0
+                }
               }
               data.players.push(player)
             }
@@ -54,6 +60,29 @@ const server = http.createServer((req, res) => {
             res.setHeader('Content-Type', 'application/xml')
             res.end(`<WogResponse result="OK"><playerkey>${player.sKey}</playerkey><name>${player.name}</name><countrycode>GB</countrycode></WogResponse>`)
             break
+          }
+          case "SetWogcStat": {
+            if (!params.playerkey || !params.ballCount || !params.ballCountAttached || !params.height) {
+              res.statusCode = 400
+              res.end("Missing paramaters")
+              break
+            }
+
+            let player = data.players.find(v => v.sKey == params.playerkey)
+            if (!player) {
+              res.statusCode = 400
+              res.end("Invalid player key")
+              break
+            }
+
+            player.wogc.ballCount = params.ballCount
+            player.wogc.ballCountAttached = params.ballCountAttached
+            player.wogc.height = params.height
+
+            console.log(data)
+
+            res.statusCode = 200
+            res.end()
           }
           default: {
             res.statusCode = 400
