@@ -1,6 +1,21 @@
 import http from 'http'
+import crypto from 'crypto'
 
-const genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
+function generateKey() {
+  const hexDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
+
+  const bytes = new Uint8Array(16)
+  crypto.randomFillSync(bytes)
+
+  const chars = new Array(32)
+  for (let i = 0; i < 16; ++i) {
+    const byte = bytes[i];
+    chars[i * 2] = hexDigits[byte & 0xf];
+    chars[i * 2 + 1] = hexDigits[(byte >> 4) & 0xf];
+  }
+
+  return `0000ffff${chars.join("").substring(8)}`
+}
 
 let data = {
   players: []
@@ -28,14 +43,16 @@ const server = http.createServer((req, res) => {
             if (!player) {
               player = {
                 cKey: params.hwkey,
-                sKey: genRanHex(32)
+                sKey: generateKey(),
+
+                name: params.name
               }
               data.players.push(player)
             }
 
             res.statusCode = 200
             res.setHeader('Content-Type', 'application/json')
-            res.end(JSON.stringify({key: player.sKey}))
+            res.end(JSON.stringify({key: player.sKey, player_key: player.sKey, playerkey: player.sKey, id: player.sKey, playerid: player.sKey, player_id: player.sKey}))
             break
           }
           default: {
