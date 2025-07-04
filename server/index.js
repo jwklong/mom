@@ -51,8 +51,8 @@ const server = http.createServer((req, res) => {
             }
 
             res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json')
-            res.end(JSON.stringify({key: player.sKey, player_key: player.sKey, playerkey: player.sKey, id: player.sKey, playerid: player.sKey, player_id: player.sKey}))
+            res.setHeader('Content-Type', 'application/xml')
+            res.end(`<WogResponse><playerkey>${player.sKey}</playerkey><name>${player.name}</name><countrycode>GB</countrycode></WogResponse>`)
             break
           }
           default: {
