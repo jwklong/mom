@@ -6,6 +6,7 @@ import path from 'path'
 import url from 'url'
 import express from 'express'
 import ejs from 'ejs'
+import ordinal from 'ordinal'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 const randomHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
@@ -97,6 +98,8 @@ const server = http.createServer((req, res) => {
         saveData()
 
         res.statusCode = 200
+        res.setHeader('Content-Type', 'application/xml')
+        res.end(`<WogResponse result="OK"><rank>${ordinal(data.players.sort((a, b) => b.wogc.height - a.wogc.height).indexOf(player)+1)}</rank></WogResponse>`)
         res.end()
         break
       }
