@@ -8,6 +8,7 @@ import express from 'express'
 import ejs from 'ejs'
 import ordinal from 'ordinal'
 import minimist from 'minimist'
+import geoip from 'geoip-country'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 const argv = minimist(process.argv.slice(2))
 
@@ -42,6 +43,9 @@ function saveData() {
 }
 
 const server = http.createServer((req, res) => {
+  let ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress
+  console.log(req.socket.remoteAddress, ip, geoip.lookup(ip))
+
   let body = ""
   req.on('data', (chunk) => {
     body += chunk.toString()
@@ -65,6 +69,7 @@ const server = http.createServer((req, res) => {
 
           name: params.name,
           id: randomHex(32),
+          country: geoip.lookup(ip)?.country ?? "XX",
 
           wogc: {
             ballCount: 0,
@@ -77,7 +82,7 @@ const server = http.createServer((req, res) => {
 
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
-        res.end(`<WogResponse result="OK"><playerkey>${player.sKey}</playerkey><name>${player.name}</name><countrycode>GB</countrycode></WogResponse>`)
+        res.end(`<WogResponse result="OK"><playerkey>${player.sKey}</playerkey><name>${player.name}</name><countrycode>${player.country}</countrycode></WogResponse>`)
         break
       }
       case "SetWogcStat": {
@@ -111,7 +116,7 @@ const server = http.createServer((req, res) => {
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
         res.end(`<WogResponse result="OK"><list>${data.players.filter(v => v !== player && (!params.height || Math.abs(v.wogc.height - Number(params.height)) <= 5)).map(v => {
-          return `<HighTowerStat player_id="${v.id}" player_name="${v.name}" height="${v.wogc.height}" heightMax="${v.wogc.height}" ballCount="${v.wogc.ballCount}" ballCountAttached="${v.wogc.ballCountAttached}" timeModified="0" dateModified="0" countryCode="GB"></HighTowerStat>`
+          return `<HighTowerStat player_id="${v.id}" player_name="${v.name}" height="${v.wogc.height}" heightMax="${v.wogc.height}" ballCount="${v.wogc.ballCount}" ballCountAttached="${v.wogc.ballCountAttached}" countryCode="${v.country}"></HighTowerStat>`
         }).join("")}</list></WogResponse>`)
         break
       }
