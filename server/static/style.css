@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "TCCEB";
+    src: url("/static/tcceb.ttf");
+}
+
+body {
+    font-family: "TCCEB";
+}

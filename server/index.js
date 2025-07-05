@@ -141,7 +141,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(express.static('static'))
+app.use('/static', express.static(path.join(__dirname, 'static')))
 
 app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/pages/index.ejs'))
