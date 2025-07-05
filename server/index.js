@@ -105,7 +105,7 @@ const server = http.createServer((req, res) => {
           break
         }
 
-        let player = requestPlayer()
+        let player = requestPlayer(params.playerkey)
         if (!player) {
           res.statusCode = 400
           res.end("Invalid player key")
@@ -125,7 +125,7 @@ const server = http.createServer((req, res) => {
         break
       }
       case "GetWogcStats": {
-        let player = requestPlayer()
+        let player = requestPlayer(params.playerkey)
 
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
