@@ -34,12 +34,13 @@ let data = {
   players: []
 }
 
-let fileExists = fs.existsSync(path.join(__dirname, "data.json"))
+let dataLocation = argv.dataLocation ?? path.join(__dirname, "data.json")
+let fileExists = fs.existsSync(dataLocation)
 if (fileExists) {
-  mergeObject(data, JSON.parse(fs.readFileSync(path.join(__dirname, "data.json"), "utf8")))
+  mergeObject(data, JSON.parse(fs.readFileSync(dataLocation, "utf8")))
 }
 function saveData() {
-  fs.writeFileSync(path.join(__dirname, "data.json"), JSON.stringify(data, null, 4))
+  fs.writeFileSync(dataLocation, JSON.stringify(data, null, 4))
 }
 
 const server = http.createServer((req, res) => {
