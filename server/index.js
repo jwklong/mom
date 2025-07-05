@@ -40,7 +40,9 @@ if (fileExists) {
   mergeObject(data, JSON.parse(fs.readFileSync(dataLocation, "utf8")))
 }
 function saveData() {
-  fs.writeFileSync(dataLocation, JSON.stringify(data, null, 4))
+  fs.writeFileSync(dataLocation+'.backup', JSON.stringify(data, null, 4))
+  fs.copyFileSync(dataLocation+'.backup', dataLocation)
+  fs.rmSync(dataLocation+'.backup')
 }
 
 const server = http.createServer((req, res) => {
@@ -99,9 +101,9 @@ const server = http.createServer((req, res) => {
           break
         }
 
-        player.wogc.ballCount = Number(params.ballCount)
-        player.wogc.ballCountAttached = Number(params.ballCountAttached)
-        player.wogc.height = Number(params.height)
+        player.wogc.ballCount = Math.max(Math.min(Number(params.ballCount), 300), 0)
+        player.wogc.ballCountAttached = Math.max(Math.min(Number(params.ballCountAttached), 300), 0)
+        player.wogc.height = Math.max(Number(params.height), 0)
         saveData()
 
         res.statusCode = 200
