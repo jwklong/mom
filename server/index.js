@@ -45,7 +45,6 @@ function saveData() {
 
 const server = http.createServer((req, res) => {
   let ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress
-  console.log(req.socket.remoteAddress, ip, geoip.lookup(ip))
 
   let body = ""
   req.on('data', (chunk) => {
@@ -116,7 +115,7 @@ const server = http.createServer((req, res) => {
 
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
-        res.end(`<WogResponse result="OK"><list>${data.players.filter(v => v !== player && (!params.height || Math.abs(v.wogc.height - Number(params.height)) <= 5)).map(v => {
+        res.end(`<WogResponse result="OK"><list>${data.players.filter(v => v !== player && (!params.height || Math.abs(v.wogc.height - Number(params.height)) <= 10)).map(v => {
           return `<HighTowerStat player_id="${v.id}" player_name="${v.name}" height="${v.wogc.height}" heightMax="${v.wogc.height}" ballCount="${v.wogc.ballCount}" ballCountAttached="${v.wogc.ballCountAttached}" countryCode="${v.country}"></HighTowerStat>`
         }).join("")}</list></WogResponse>`)
         break
