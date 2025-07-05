@@ -7,7 +7,9 @@ import url from 'url'
 import express from 'express'
 import ejs from 'ejs'
 import ordinal from 'ordinal'
+import minimist from 'minimist'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+const argv = minimist(process.argv.slice(2))
 
 const randomHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
 
@@ -121,7 +123,7 @@ const server = http.createServer((req, res) => {
   })
 })
 
-const backendPort = 3000
+const backendPort = argv.backendPort ?? 3000
 server.listen(backendPort, () => {
   console.log(`backend listening on ${backendPort}`)
 })
@@ -140,7 +142,7 @@ app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/pages/index.ejs'))
 })
 
-const frontendPort = 8080
+const frontendPort = argv.frontendPort ?? 8080 
 app.listen(frontendPort, () => {
   console.log(`frontend listening on ${frontendPort}`)
 })
