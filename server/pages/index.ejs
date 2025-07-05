@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/static/style.css">
 
-<% for (let user of data.players.sort((a, b) => b.height - a.height)) { %>
-    <%= user.name %>'s tower is <%= user.wogc.height.toFixed(1) %> meters tall <br>
+<% for (let player of data.players.sort((a, b) => b.height - a.height)) { %>
+    <a href="/player/<%= player.id %>"><%= player.name %></a>'s tower is <%= player.wogc.height.toFixed(1) %> meters tall <br>
 <% } %>

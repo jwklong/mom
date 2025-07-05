@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="/static/style.css">
+
+<% let player = data.players.find(v => v.id == id) %>
+<% if (player) { %>
+    <%= player.name %> - joined <%= new Date(player.created || 0).toDateString() %><br>
+    their tower is <%= player.wogc.height.toFixed(1) %> meters tall, made with <%= player.wogc.ballCountAttached %> gooballs<br>
+<% } else { %>
+    no player found
+<% } %>

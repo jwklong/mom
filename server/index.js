@@ -30,6 +30,15 @@ function generateKey() {
   return `0000ffff${chars.join("").substring(8)}`
 }
 
+function requestPlayer(key) {
+  let player = data.players.find(v => v.sKey == key)
+  if (player) {
+    player.lastOnline = Date.now()
+    player.created ??= Date.now()
+  }
+  return player
+}
+
 let data = {
   players: []
 }
@@ -72,6 +81,8 @@ const server = http.createServer((req, res) => {
           name: params.name,
           id: randomHex(32),
           country: geoip.lookup(ip)?.country ?? "XX",
+          lastOnline: Date.now(),
+          created: Date.now(),
 
           wogc: {
             ballCount: 0,
@@ -94,7 +105,7 @@ const server = http.createServer((req, res) => {
           break
         }
 
-        let player = data.players.find(v => v.sKey == params.playerkey)
+        let player = requestPlayer()
         if (!player) {
           res.statusCode = 400
           res.end("Invalid player key")
@@ -114,7 +125,7 @@ const server = http.createServer((req, res) => {
         break
       }
       case "GetWogcStats": {
-        let player = data.players.find(v => v.sKey == params.playerkey)
+        let player = requestPlayer()
 
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
@@ -148,6 +159,10 @@ app.use('/static', express.static(path.join(__dirname, 'static')))
 
 app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/pages/index.ejs'))
+})
+
+app.get('/player/:id', (req, res) => {
+  res.render(path.join(__dirname, '/pages/player.ejs'), req.params)
 })
 
 const frontendPort = argv.frontendPort ?? 8080 
