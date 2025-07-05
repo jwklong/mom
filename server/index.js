@@ -118,9 +118,9 @@ const server = http.createServer((req, res) => {
 
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
-        res.end(`<WogResponse result="OK"><HighTowerStat>${data.players.map(v => {
-          return `<HighTowerStat player_name="${v.name}" height="${v.wogc.height}" heightMax="${v.wogc.height}" ballCount="${v.wogc.ballCount}" ballCountAttached="${v.wogc.ballCountAttached}" timeModified="0" dateModified="0" countryCode="GB"></HighTowerStat>`
-        }).join("")}</HighTowerStat></WogResponse>`)
+        res.end(`<WogResponse result="OK"><list>${data.players.map(v => {
+          return `<HighTowerStat player_id="${v.id}" player_name="${v.name}" height="${v.wogc.height}" heightMax="${v.wogc.height}" ballCount="${v.wogc.ballCount}" ballCountAttached="${v.wogc.ballCountAttached}" timeModified="0" dateModified="0" countryCode="GB"></HighTowerStat>`
+        }).join("")}</list></WogResponse>`)
         break
       }
       default: {
