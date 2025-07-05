@@ -98,6 +98,27 @@ const server = http.createServer((req, res) => {
 
         res.statusCode = 200
         res.end()
+        break
+      }
+      case "GetWogcStats": {
+        /*
+          HighTowerStat
+          - player_name
+          - height
+          - heightMax
+          - ballCount
+          - ballCountAttached
+          - timeModified
+          - dateModified
+          - countryCode
+        */
+
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'application/xml')
+        res.end(`<WogResponse result="OK">${data.players.map(v => {
+          return `<HighTowerStat player_name="${v.name}" height="${v.height}" heightMax="${v.height}" ballCount="${v.wogc.ballCount}" ballCountAttached="${v.wogc.ballCountAttached}" timeModified="0" dateModified="0" countryCode="GB"></HighTowerStat>`
+        }).join("")}</WogResponse>`)
+        break
       }
       default: {
         res.statusCode = 400
