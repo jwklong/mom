@@ -2,6 +2,7 @@
 <%- include('header') %>
 
 <%
+    console.log(query)
     let sort = columns.find(v => v.name == query.category)?.sort || columns.find(v => v.name == defaultSort).sort
     let sortedItems = baseData.sort(sort)
 %>
