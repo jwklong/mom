@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/static/style.css">
+<%- include('header') %>
+
+<%
+    let sort = columns.find(v => v.name == query.category)?.sort || columns.find(v => v.name == defaultSort).sort
+    let sortedItems = baseData.sort(sort)
+%>
+
+<div class="lb">
+    <h1><%- title %></h1>
+    <table>
+        <thead>
+            <tr>
+                <% for (let column of columns) { %>
+                    <% if (column.sort) { %>
+                        <th><a href="?category=<%= column.name %>"><%- column.name %></a></th>
+                    <% } else { %>
+                        <th><%- column.name %></th>
+                    <% } %>
+                <% } %>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let item of sortedItems) { %>
+                <tr>
+                    <% for (let column of columns) { %>
+                        <td><%- column.value(item) %></td>
+                    <% } %>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>

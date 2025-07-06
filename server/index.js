@@ -154,6 +154,7 @@ const app = express()
 app.engine('ejs', ejs.renderFile)
 app.use((req, res, next) => {
   res.locals.data = data
+  res.locals.query = req.query
   next()
 })
 
@@ -163,8 +164,17 @@ app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/pages/index.ejs'))
 })
 
+app.get('/towers', (req, res) => {
+  res.render(path.join(__dirname, '/pages/towers.ejs'))
+})
+
 app.get('/player/:id', (req, res) => {
   res.render(path.join(__dirname, '/pages/player.ejs'), req.params)
+})
+
+app.use((req, res) => {
+  res.status(404)
+  res.render(path.join(__dirname, '/pages/404.ejs'))
 })
 
 const frontendPort = argv.frontendPort ?? 8080 
