@@ -4,6 +4,7 @@
 <% if (player) { %>
     <%= player.name %> - joined <%= new Date(player.created || 0).toDateString() %><br>
     their tower is <%= player.wogc.height.toFixed(1) %> meters tall, made with <%= player.wogc.ballCountAttached %> gooballs<br>
+    their highest tower ever is <%= (player.wogc.heightRecord || player.wogc.height).toFixed(1) %> meters tall<br>
 <% } else { %>
     no player found
 <% } %>

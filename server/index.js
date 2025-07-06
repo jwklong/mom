@@ -87,7 +87,8 @@ const server = http.createServer((req, res) => {
           wogc: {
             ballCount: 0,
             ballCountAttached: 0,
-            height: 0
+            height: 0,
+            heightRecord: 0
           }
         }
         data.players.push(player)
@@ -116,6 +117,7 @@ const server = http.createServer((req, res) => {
         player.wogc.ballCountAttached = Math.max(Math.min(Number(params.ballCountAttached) || 0, 300), 0)
         player.wogc.height = Math.max(Math.min(Number(params.height) || 0, player.wogc.ballCountAttached * 0.75), 0)
         if (player.wogc.height == player.wogc.ballCountAttached * 0.75) player.wogc.height = 0
+        player.wogc.heightRecord = Math.max(player.wogc.heightRecord ?? 0, player.wogc.height)
         saveData()
 
         res.statusCode = 200
