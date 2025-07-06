@@ -7,7 +7,7 @@
 <div class="header-spacer"></div>
 
 <script>
-    let theme = Boolean(localStorage.getItem('ishTheme') ?? false)
+    let theme = localStorage.getItem('ishTheme') == 'true'
     if (theme) {
         document.body.classList.add("ish")
     }
