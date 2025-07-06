@@ -2,7 +2,7 @@
     include('components/lbTemplate', {
         title: levels[id].name,
         baseData: data.players.map(v => Object.entries((v.levels ?? {})[id] ?? {}).map(w => ({ player: v, record: w[0], ...w[1] }))).flat().filter(v => v.record !== "balls" || levels[id].requirement > 0),
-        defaultSort: 'name',
+        defaultSort: 'balls',
         columns: [
             {
                 name: 'name',
