@@ -112,7 +112,7 @@ const server = http.createServer((req, res) => {
           break
         }
 
-        player.wogc.ballCount = Math.max(Math.min(Number(params.ballCount) || 0, 300), 0)
+        player.wogc.ballCount = Math.max(Number(params.ballCount) || 0, 0)
         player.wogc.ballCountAttached = Math.max(Math.min(Number(params.ballCountAttached) || 0, 300), 0)
         player.wogc.height = Math.max(Math.min(Number(params.height) || 0, player.wogc.ballCountAttached * 0.75), 0)
         if (player.wogc.height == player.wogc.ballCountAttached * 0.75) player.wogc.height = 0
@@ -130,7 +130,7 @@ const server = http.createServer((req, res) => {
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
         res.end(`<WogResponse result="OK"><list>${data.players.filter(v => v !== player && (!params.height || Math.abs(v.wogc.height - Number(params.height)) <= 10)).map(v => {
-          return `<HighTowerStat player_id="${v.id}" player_name="${v.name}" height="${v.wogc.height}" heightMax="${v.wogc.height}" ballCount="${v.wogc.ballCount}" ballCountAttached="${v.wogc.ballCountAttached}" countryCode="${v.country}"></HighTowerStat>`
+          return `<HighTowerStat player_id="${v.id}" player_name="${v.name}" height="${v.wogc.height}" heightMax="${v.wogc.height}" ballCount="${Math.min(v.wogc.ballCount, 300)}" ballCountAttached="${v.wogc.ballCountAttached}" countryCode="${v.country}"></HighTowerStat>`
         }).join("")}</list></WogResponse>`)
         break
       }
