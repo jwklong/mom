@@ -1,0 +1,22 @@
+<%-
+    include('components/lbTemplate', {
+        title: 'Levels',
+        baseData: Object.entries(levels).map(([id, level]) => ({ id, ...level })),
+        defaultSort: 'chapter',
+        columns: [
+            {
+                name: 'name',
+                value: v => `<a href="/level/${v.id}">${v.name}</a>`,
+                sort: (a, b) => {
+                    a = a.name.toUpperCase()
+                    b = b.name.toUpperCase()
+                    return a < b ? -1 : a > b ? 1 : 0
+                }
+            }, {
+                name: 'chapter',
+                value: v => `Chapter ${v.chapter}`,
+                sort: (a, b) => a.chapter - b.chapter
+            }
+        ]
+    })
+%>

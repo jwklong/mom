@@ -1,0 +1,29 @@
+<%-
+    include('components/lbTemplate', {
+        title: levels[id].name,
+        baseData: data.players.map(v => Object.entries((v.levels ?? {})[id] ?? {}).map(w => ({ player: v, record: w[0], ...w[1] }))).flat().filter(v => v.record !== "balls" || levels[id].requirement > 0),
+        defaultSort: 'name',
+        columns: [
+            {
+                name: 'name',
+                value: v => `<a href="/level/${v.player.id}">${v.player.name}</a>`
+            }, {
+                name: 'record',
+                value: v => v.record
+            }, {
+                name: 'balls',
+                value: v => v.balls,
+                sort: (a, b) => b.balls - a.balls,
+                visible: levels[id].requirement > 0
+            }, {
+                name: 'time',
+                value: v => `${v.time}s`,
+                sort: (a, b) => a.time - b.time
+            }, {
+                name: 'moves',
+                value: v => v.moves,
+                sort: (a, b) => a.moves - b.moves
+            }
+        ]
+    })
+%>

@@ -9,6 +9,9 @@ html, body {
     color: #fff;
     font-size: 24px;
 }
+.ish {
+    color: #0f0;
+}
 
 * {
     font-weight: 400 !important;
@@ -16,6 +19,9 @@ html, body {
 
 a {
     color: #fff;
+}
+.ish a {
+    color: #0f0;
 }
 
 table {
@@ -26,16 +32,24 @@ th, td {
     padding: 4px 16px;
     min-width: 80px;
     border: 2px solid #fff;
+    color: #fff;
     text-align: center;
+}
+.ish :is(th, td) {
+    border-color: #0f0;
+    color: #0f0;
 }
 
 thead {
     background: #fff;
     color: #000;
 }
+.ish thead {
+    background: #0f0;
+}
 
 thead * {
-    color: #000;
+    color: #000 !important;
 }
 
 .header {
@@ -52,6 +66,9 @@ thead * {
     padding: 0 16px;
     gap: 32px;
     font-size: 32px;
+}
+.ish .header {
+    background: #0f0;
 }
 
 .header a {

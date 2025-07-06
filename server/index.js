@@ -12,6 +12,8 @@ import geoip from 'geoip-country'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 const argv = minimist(process.argv.slice(2))
 
+import levels from './constants/levels.json' with {type: 'json'}
+
 const randomHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
 
 function generateKey() {
@@ -89,7 +91,9 @@ const server = http.createServer((req, res) => {
             ballCountAttached: 0,
             height: 0,
             heightRecord: 0
-          }
+          },
+
+          levels: {}
         }
         data.players.push(player)
         saveData()
@@ -136,6 +140,53 @@ const server = http.createServer((req, res) => {
         }).join("")}</list></WogResponse>`)
         break
       }
+      case "SetLevelStats": {
+        if (!params.playerkey || !params.levelid || !params.balls || !params.moves || !params.time) {
+          res.statusCode = 400
+          res.end("Missing paramaters")
+          break
+        }
+
+        let player = requestPlayer(params.playerkey)
+        if (!player) {
+          res.statusCode = 400
+          res.end("Invalid player key")
+          break
+        }
+
+        let level = levels[params.levelid]
+        if (!level) {
+          res.statusCode = 400
+          res.end("Invalid level id")
+          break
+        }
+
+        params.balls = Math.floor(Math.max(Number(params.balls) || 0, 0))
+        params.moves = Math.floor(Math.max(Number(params.moves) || 0, 0))
+        params.time = Math.floor(Math.max(Number(params.time) || 0, 0))
+
+        if (params.balls < level.requirement || (params.balls == 0 && params.balls !== level.requirement)) {
+          res.statusCode = 400
+          res.end("Invalid")
+        }
+
+        player.levels ??= {}
+        player.levels[params.levelid] ??= {
+          balls: {balls: params.balls, moves: params.moves, time: params.time},
+          moves: {balls: params.balls, moves: params.moves, time: params.time},
+          time: {balls: params.balls, moves: params.moves, time: params.time}
+        }
+
+        if (player.levels[params.levelid].balls.balls < params.balls) player.levels[params.levelid].balls = {balls: params.balls, moves: params.moves, time: params.time}
+        if (player.levels[params.levelid].moves.moves > params.moves) player.levels[params.levelid].moves = {balls: params.balls, moves: params.moves, time: params.time}
+        if (player.levels[params.levelid].time.time > params.time) player.levels[params.levelid].time = {balls: params.balls, moves: params.moves, time: params.time}
+
+        saveData()
+
+        res.statusCode = 200
+        res.end(``)
+        break
+      }
       default: {
         res.statusCode = 400
         res.end("Unknown op code")
@@ -155,6 +206,7 @@ app.engine('ejs', ejs.renderFile)
 app.use((req, res, next) => {
   res.locals.data = data
   res.locals.query = req.query
+  res.locals.levels = levels
   next()
 })
 
@@ -166,6 +218,15 @@ app.get('/', (req, res) => {
 
 app.get('/towers', (req, res) => {
   res.render(path.join(__dirname, '/pages/towers.ejs'))
+})
+
+app.get('/levels', (req, res) => {
+  res.render(path.join(__dirname, '/pages/levels.ejs'))
+})
+
+app.get('/level/:id', (req, res, next) => {
+  if (!levels[req.params.id]) return next()
+  res.render(path.join(__dirname, '/pages/level.ejs'), req.params)
 })
 
 app.get('/player/:id', (req, res) => {

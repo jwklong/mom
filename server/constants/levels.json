@@ -1,0 +1,74 @@
+{
+    "GoingUp": {
+        "chapter": 1,
+        "name": "Going Up",
+        "ocd": ["balls", 11],
+        "requirement": 4
+    },
+    "EconomicDivide": {
+        "chapter": 1,
+        "name": "Small Divide",
+        "ocd": ["balls", 16],
+        "requirement": 8
+    },
+    "HangLow": {
+        "chapter": 1,
+        "name": "Hang Low",
+        "ocd": ["balls", 22],
+        "requirement": 8
+    },
+    "ImpaleSticky": {
+        "chapter": 1,
+        "name": "Impale Sticky",
+        "ocd": ["balls", 42],
+        "requirement": 26
+    },
+    "IvyTower": {
+        "chapter": 1,
+        "name": "Ivy Towers",
+        "ocd": ["balls", 16],
+        "requirement": 2
+    },
+    "Tumbler": {
+        "chapter": 1,
+        "name": "Tumbler",
+        "ocd": ["balls", 35],
+        "requirement": 8
+    },
+    "Chain": {
+        "chapter": 1,
+        "name": "Chain",
+        "ocd": ["balls", 25],
+        "requirement": 15
+    },
+    "FlyingMachine": {
+        "chapter": 1,
+        "name": "Flying Machine",
+        "ocd": ["time", 16],
+        "requirement": 4
+    },
+    "FistyReachesOut": {
+        "chapter": 1,
+        "name": "Fisty's Bog",
+        "ocd": ["moves", 14],
+        "requirement": 6
+    },
+    "TowerOfGoo": {
+        "chapter": 1,
+        "name": "Tower of Goo",
+        "ocd": ["balls", 68],
+        "requirement": 25
+    },
+    "OdeToBridgeBuilder": {
+        "chapter": 1,
+        "name": "Ode to the Bridge Builder",
+        "ocd": ["balls", 38],
+        "requirement": 8
+    },
+    "RegurgitationPumpingStation": {
+        "chapter": 1,
+        "name": "Regurgitation Pumping Station",
+        "ocd": ["moves", 42],
+        "requirement": 0
+    }
+}

@@ -2,5 +2,23 @@
     <a href="/" class="logo">MOM</a>
     <a href="/towers">towers</a>
     <a href="/levels">levels</a>
+    <a href="#" onclick="toggleTheme()">theme</a>
 </div>
 <div class="header-spacer"></div>
+
+<script>
+    let theme = localStorage.getItem('ishTheme') ?? false
+    if (theme) {
+        document.body.classList.add("ish")
+    }
+
+    function toggleTheme() {
+        theme = !theme
+        localStorage.setItem('ishTheme', theme)
+        if (theme) {
+            document.body.classList.add("ish")
+        } else {
+            document.body.classList.remove("ish")
+        }
+    }
+</script>

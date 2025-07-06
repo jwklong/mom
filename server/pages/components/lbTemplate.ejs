@@ -2,7 +2,6 @@
 <%- include('header') %>
 
 <%
-    console.log(query)
     let sort = columns.find(v => v.name == query.category)?.sort || columns.find(v => v.name == defaultSort).sort
     let sortedItems = baseData.sort(sort)
 %>
@@ -12,7 +11,7 @@
     <table>
         <thead>
             <tr>
-                <% for (let column of columns) { %>
+                <% for (let column of columns.filter(v => v.visible !== false)) { %>
                     <% if (column.sort) { %>
                         <th><a href="?category=<%= column.name %>"><%- column.name %></a></th>
                     <% } else { %>
@@ -24,7 +23,7 @@
         <tbody>
             <% for (let item of sortedItems) { %>
                 <tr>
-                    <% for (let column of columns) { %>
+                    <% for (let column of columns.filter(v => v.visible !== false)) { %>
                         <td><%- column.value(item) %></td>
                     <% } %>
                 </tr>
