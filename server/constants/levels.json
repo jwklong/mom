@@ -70,5 +70,72 @@
         "name": "Regurgitation Pumping Station",
         "ocd": ["moves", 42],
         "requirement": 0
+    },
+
+    "Drool": {
+        "chapter": 2,
+        "name": "Drool",
+        "ocd": ["balls", 24],
+        "requirement": 10
+    },
+    "FlyAwayLittleOnes": {
+        "chapter": 2,
+        "name": "Fly Away Little Ones",
+        "ocd": ["balls", 12],
+        "requirement": 4
+    },
+    "BlusteryDay": {
+        "chapter": 2,
+        "name": "Blustery Day",
+        "ocd": ["balls", 18],
+        "requirement": 9
+    },
+    "ImmigrationNaturalizationUnit": {
+        "chapter": 2,
+        "name": "Welcoming Unit",
+        "ocd": ["balls", 61],
+        "requirement": 36
+    },
+    "BeautySchool": {
+        "chapter": 2,
+        "name": "Beauty School",
+        "ocd": ["time", 21],
+        "requirement": 16
+    },
+    "VolcanicPercolatorDaySpa": {
+        "chapter": 2,
+        "name": "Volcanic Percolator Day Spa",
+        "ocd": ["moves", 30],
+        "requirement": 12
+    },
+    "LeapHole": {
+        "chapter": 2,
+        "name": "Leap Hole",
+        "ocd": ["time", 13],
+        "requirement": 6
+    },
+    "Whistler": {
+        "chapter": 2,
+        "name": "Whistler",
+        "ocd": ["time", 29],
+        "requirement": 20
+    },
+    "BeautyAndTheTentacle": {
+        "chapter": 2,
+        "name": "Beauty and the Electric Tentacle",
+        "ocd": ["balls", 29],
+        "requirement": 16
+    },
+    "RedCarpet": {
+        "chapter": 2,
+        "name": "The Red Carpet",
+        "ocd": ["moves", 45],
+        "requirement": 10
+    },
+    "GeneticSortingMachine": {
+        "chapter": 2,
+        "name": "Genetic Sorting Machine",
+        "ocd": ["moves", 24],
+        "requirement": 12
     }
 }
