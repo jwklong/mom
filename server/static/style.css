@@ -5,11 +5,12 @@
 
 html, body {
     font-family: "TCCEB";
-    background: #000;
-    color: #fff;
+    background: #111;
+    color: #ddd;
     font-size: 24px;
 }
 .ish {
+    background: #000;
     color: #0f0;
 }
 
@@ -18,7 +19,7 @@ html, body {
 }
 
 a {
-    color: #fff;
+    color: #ddd;
 }
 .ish a {
     color: #0f0;
@@ -26,13 +27,15 @@ a {
 
 table {
     font-size: 24px;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 th, td {
     padding: 4px 16px;
     min-width: 80px;
-    border: 2px solid #fff;
-    color: #fff;
+    border: 2px solid #ddd;
+    color: #ddd;
     text-align: center;
 }
 .ish :is(th, td) {
@@ -41,14 +44,18 @@ th, td {
 }
 
 thead {
-    background: #fff;
-    color: #000;
+    background: #ddd;
+    color: #111;
 }
 .ish thead {
     background: #0f0;
+    color: #000;
 }
 
 thead * {
+    color: #111 !important;
+}
+.ish thead * {
     color: #000 !important;
 }
 
@@ -58,8 +65,8 @@ thead * {
     left: 0;
     width: 100vw;
     height: 80px;
-    background: #fff;
-    color: #000;
+    background: #ddd;
+    color: #111;
     display: flex;
     align-items: center;
     box-sizing: border-box;
@@ -69,11 +76,15 @@ thead * {
 }
 .ish .header {
     background: #0f0;
+    color: #000;
 }
 
 .header a {
-    color: #000;
+    color: #111;
     text-decoration: none;
+}
+.ish .header a {
+    color: #000;
 }
 
 .header .logo {
