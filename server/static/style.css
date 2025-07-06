@@ -3,11 +3,13 @@
     src: url("/static/tcceb.ttf");
 }
 
-html, body {
+body {
     font-family: "TCCEB";
     background: #111;
     color: #ddd;
     font-size: 24px;
+    margin: 0;
+    padding: 8px;
 }
 .ish {
     background: #000;
