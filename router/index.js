@@ -6,12 +6,12 @@ const argv = minimist(process.argv.slice(2))
 const app = express()
 
 const config = {
-    fromPort: argv.fromPort ?? 3000,
-    to: argv.to
+  fromPort: argv.fromPort ?? 3000,
+  to: argv.to
 }
 
 if (!config.to) {
-    throw "Missing 'to' parameter"
+  throw "Missing 'to' parameter"
 }
 
 const proxyOptions = {

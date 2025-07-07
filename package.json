@@ -5,7 +5,8 @@
   "main": "server/index.js",
   "scripts": {
     "server": "node server/index.js",
-    "router": "node router/index.js"
+    "router": "node router/index.js",
+    "patcher": "node patcher/index.js"
   },
   "keywords": [],
   "author": "",
