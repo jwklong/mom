@@ -60,13 +60,16 @@ for (const key in replacers) {
     replaceBuffer.copy(buffer, index)
 }
 
+fs.renameSync(writeFile, writeFile + '.backup')
 fs.writeFileSync(writeFile, buffer)
 fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
 
 process.on('SIGINT', () => {
     jsProcess.kill()
-    fs.writeFileSync(writeFile, originalBuffer)
+    fs.rmSync(writeFile)
+    fs.copyFileSync(writeFile + '.backup', writeFile)
     fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
+    fs.rmSync(writeFile + '.backup')
 })
 
 try {
@@ -91,5 +94,7 @@ try {
     console.error(e)
 }
 
-fs.writeFileSync(writeFile, originalBuffer)
+fs.rmSync(writeFile)
+fs.copyFileSync(writeFile + '.backup', writeFile)
 fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
+fs.rmSync(writeFile + '.backup')
