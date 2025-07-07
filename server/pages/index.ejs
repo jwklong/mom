@@ -2,3 +2,4 @@
 <%- include('components/header') %>
 
 hello world
+<%= data.players.filter(v => v.lastOnline > (Date.now() - 5 * 60 * 1000)).length %> players online
