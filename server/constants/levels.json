@@ -198,5 +198,90 @@
         "name": "Product Launcher",
         "ocd": ["moves", 12],
         "requirement": 0
+    },
+
+    "HelloWorld": {
+        "chapter": 4,
+        "name": "Hello World",
+        "ocd": ["time", 9],
+        "requirement": 4
+    },
+    "BulletinBoardSystem": {
+        "chapter": 4,
+        "name": "Bulletin Board System",
+        "ocd": ["balls", 13],
+        "requirement": 4
+    },
+    "GrapeVineVirus": {
+        "chapter": 4,
+        "name": "Grape Vine Virus",
+        "ocd": ["balls", 13],
+        "requirement": 4
+    },
+    "GraphicProcessingUnit": {
+        "chapter": 4,
+        "name": "Graphic Processing Unit",
+        "ocd": ["balls", 12],
+        "requirement": 6
+    },
+    "RoadBlocks": {
+        "chapter": 4,
+        "name": "Road Blocks",
+        "ocd": ["moves", 22],
+        "requirement": 4
+    },
+    "GracefulFailure": {
+        "chapter": 4,
+        "name": "Graceful Failure",
+        "ocd": ["time", 36],
+        "requirement": 4
+    },
+    "AB3": {
+        "chapter": 4,
+        "name": "Alice and Bob and the Third Party",
+        "ocd": ["balls", 42],
+        "requirement": 30
+    },
+    "TheServer": {
+        "chapter": 4,
+        "name": "The Server Farm",
+        "ocd": ["balls", 24],
+        "requirement": 4
+    },
+    "MOM": {
+        "chapter": 4,
+        "name": "MOM",
+        "ocd": ["moves", 15],
+        "requirement": 0
+    },
+    "Deliverance": {
+        "chapter": 4,
+        "name": "Deliverance",
+        "ocd": ["moves", 7],
+        "requirement": 0
+    },
+
+    "InfestyTheWorm": {
+        "chapter": 5,
+        "name": "Infesty the Worm",
+        "ocd": ["balls", 16],
+        "requirement": 4
+    },
+    "HTInnovationCommittee": {
+        "chapter": 5,
+        "name": "Horizontal Transportation Innovation Committee",
+        "ocd": ["balls", 40],
+        "requirement": 8
+    },
+    "WeatherVane": {
+        "chapter": 5,
+        "name": "Weather Vane",
+        "ocd": ["balls", 42],
+        "requirement": 6
+    },
+    "ObservatoryObservationStation": {
+        "chapter": 5,
+        "name": "Observatory Observation Station",
+        "requirement": 0
     }
 }
