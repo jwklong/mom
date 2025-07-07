@@ -137,5 +137,66 @@
         "name": "Genetic Sorting Machine",
         "ocd": ["moves", 24],
         "requirement": 12
+    },
+
+    "BurningMan": {
+        "chapter": 3,
+        "name": "Burning Man",
+        "ocd": ["moves", 11],
+        "requirement": 4
+    },
+    "SecondHandSmoke": {
+        "chapter": 3,
+        "name": "Second Hand Smoke",
+        "ocd": ["balls", 25],
+        "requirement": 12
+    },
+    "MistysLongBonyRoad": {
+        "chapter": 3,
+        "name": "Misty's Long Bony Road",
+        "ocd": ["balls", 26],
+        "requirement": 8
+    },
+    "ThirdWheel": {
+        "chapter": 3,
+        "name": "Third Wheel",
+        "ocd": ["moves", 9],
+        "requirement": 16
+    },
+    "WaterLock": {
+        "chapter": 3,
+        "name": "Water Lock",
+        "ocd": ["balls", 44],
+        "requirement": 36
+    },
+    "SuperFuseChallengeTime": {
+        "chapter": 3,
+        "name": "Super Fuse Challenge Time",
+        "ocd": ["balls", 32],
+        "requirement": 10
+    },
+    "UpperShaft": {
+        "chapter": 3,
+        "name": "Upper Shaft",
+        "ocd": ["balls", 45],
+        "requirement": 10
+    },
+    "YouHaveToExplodeTheHead": {
+        "chapter": 3,
+        "name": "You Have To Explode The Head",
+        "ocd": ["balls", 49],
+        "requirement": 4
+    },
+    "IncinerationDestination": {
+        "chapter": 3,
+        "name": "Incineration Destination",
+        "ocd": ["moves", 34],
+        "requirement": 12
+    },
+    "ProductLauncher": {
+        "chapter": 3,
+        "name": "Product Launcher",
+        "ocd": ["moves", 12],
+        "requirement": 0
     }
 }
