@@ -24,7 +24,14 @@ if (config.mode == "connect") {
 
 if (!config.file) {
     throw "Missing 'file' parameter"
-} else if (!fs.existsSync(config.file)) {
+}
+
+if (fs.existsSync(config.file + '.backup')) {
+    fs.rmSync(config.file, {force: true})
+    fs.renameSync(config.file + '.backup', config.file)
+}
+
+if (!fs.existsSync(config.file)) {
     throw "File does not exist"
 }
 
@@ -63,6 +70,7 @@ for (const key in replacers) {
 fs.renameSync(writeFile, writeFile + '.backup')
 fs.writeFileSync(writeFile, buffer)
 fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
+fs.cpSync(path.join(__dirname, "res"), path.join(path.dirname(writeFile), "res"), { recursive: true, force: true })
 
 process.on('SIGINT', () => {
     jsProcess.kill()
