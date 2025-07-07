@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/static/style.css">
 <%- include('components/header') %>
 
-hello world
+hello world<br>
 <%= data.players.filter(v => v.lastOnline > (Date.now() - 5 * 60 * 1000)).length %> players online
