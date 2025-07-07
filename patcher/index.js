@@ -26,8 +26,6 @@ if (!config.file) {
     throw "Missing 'file' parameter"
 } else if (!fs.existsSync(config.file)) {
     throw "File does not exist"
-} else if (!config.file.endsWith(".exe")) {
-    throw "Invalid file"
 }
 
 const replacers = {
@@ -35,35 +33,62 @@ const replacers = {
     "worldofgoo.com": "1:3000/wogsrvr"
 }
 
-let buffer = fs.readFileSync(config.file)
+let writeFile
+if (process.platform == 'linux') {
+    if (fs.existsSync(config.file + '.bin')) { //1.40
+        writeFile = config.file + '.bin'
+    } else { //1.41
+        if (process.arch == 'x64') {
+            writeFile = config.file + '.bin64'
+        } else {
+            writeFile = config.file + '.bin32'
+        }
+    }
+} else {
+    writeFile = config.file
+}
+let buffer = fs.readFileSync(writeFile)
+let originalBuffer = fs.readFileSync(writeFile)
 for (const key in replacers) {
     const value = replacers[key]
     const findBuffer = Buffer.from(key, 'ascii')
     const replaceBuffer = Buffer.from(value, 'ascii')
     
-    replaceBuffer.copy(buffer, buffer.indexOf(findBuffer))
+    let index = buffer.indexOf(findBuffer)
+    if (index == -1) throw "Invalid file"
+
+    replaceBuffer.copy(buffer, index)
 }
 
-let outputFile = path.join(path.dirname(config.file), "MOM.exe")
-fs.writeFileSync(outputFile, buffer)
+fs.writeFileSync(writeFile, buffer)
+fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
 
-let jsProcess
-console.log(config.mode)
-switch (config.mode) {
-    case "connect":
-        jsProcess = exec(`node ${__dirname}/../router/index.js --to ${config.connectTo}`)
-        break
-    case "host":
-        jsProcess = exec(`node ${__dirname}/../server/index.js`)
-        break
-}
+process.on('SIGINT', () => {
+    fs.writeFileSync(writeFile, originalBuffer)
+    fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
+})
 
 try {
-    execFileSync(outputFile, {
-        "cwd": path.dirname(config.file)
-    })
-} catch {}
+    let jsProcess
+    switch (config.mode) {
+        case "connect":
+            jsProcess = exec(`node ${__dirname}/../router/index.js --to ${config.connectTo}`)
+            break
+        case "host":
+            jsProcess = exec(`node ${__dirname}/../server/index.js`)
+            break
+    }
 
-jsProcess.kill()
+    try {
+        execFileSync(config.file, {
+            "cwd": path.dirname(config.file)
+        })
+    } catch {}
 
-fs.rmSync(outputFile)
+    jsProcess.kill()
+} catch (e) {
+    console.error(e)
+}
+
+fs.writeFileSync(writeFile, originalBuffer)
+fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
