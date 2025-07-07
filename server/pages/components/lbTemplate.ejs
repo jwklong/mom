@@ -8,6 +8,9 @@
 
 <div class="lb">
     <h1><%- title %></h1>
+    <% if (globalThis.subtext) { %>
+        <span><%- subtext %></span>
+    <% } %>
     <table>
         <thead>
             <tr>

@@ -1,6 +1,7 @@
 <%-
     include('components/lbTemplate', {
         title: 'Towers',
+        subtext: `${data.players.filter(v => v.wogc.lastUpdated > (Date.now() - 60 * 1000))} people currently building.`
         baseData: data.players,
         defaultSort: 'height',
         columns: [

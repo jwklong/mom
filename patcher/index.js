@@ -64,6 +64,7 @@ fs.writeFileSync(writeFile, buffer)
 fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
 
 process.on('SIGINT', () => {
+    jsProcess.kill()
     fs.writeFileSync(writeFile, originalBuffer)
     fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
 })
