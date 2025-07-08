@@ -72,6 +72,7 @@ fs.writeFileSync(writeFile, buffer)
 fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
 fs.cpSync(path.join(__dirname, "res"), path.join(path.dirname(writeFile), "res"), { recursive: true, force: true })
 
+let jsProcess
 process.on('SIGINT', () => {
     jsProcess.kill()
     fs.rmSync(writeFile)
@@ -79,9 +80,7 @@ process.on('SIGINT', () => {
     fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
     fs.rmSync(writeFile + '.backup')
 })
-
 try {
-    let jsProcess
     switch (config.mode) {
         case "connect":
             jsProcess = exec(`node ${__dirname}/../router/index.js --to ${config.connectTo}`)
