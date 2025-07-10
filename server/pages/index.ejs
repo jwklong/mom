@@ -1,5 +1,11 @@
 <link rel="stylesheet" href="/static/style.css">
 <%- include('components/header') %>
 
-hello world<br>
-<%= data.players.filter(v => v.lastOnline > (Date.now() - 5 * 60 * 1000)).length %> players online
+<div class="content">
+    <span>hello world</span>
+    <span><%- data.players.filter(v => v.lastOnline > (Date.now() - 5 * 60 * 1000)).length %> players online</span>
+    <br>
+    <span>connect via:</span>
+    <h1 style="font-size: 64px; transform: rotate(-5deg)"><%= connectAddress %></h1>
+    <span>learn how to connect <a href="#">here</a></span>
+</div>

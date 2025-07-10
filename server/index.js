@@ -9,6 +9,7 @@ import ejs from 'ejs'
 import ordinal from 'ordinal'
 import minimist from 'minimist'
 import geoip from 'geoip-country'
+import ip from 'ip'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 const argv = minimist(process.argv.slice(2))
 
@@ -209,6 +210,7 @@ app.use((req, res, next) => {
   res.locals.data = data
   res.locals.query = req.query
   res.locals.levels = levels
+  res.locals.connectAddress = argv.displayConnectAddress ?? `${ip.address()}:${backendPort}`
   next()
 })
 
