@@ -2,10 +2,26 @@
 <%- include('components/header') %>
 
 <% let player = data.players.find(v => v.id == id) %>
-<% if (player) { %>
-    <%= player.name %> - joined <%= new Date(player.created || 0).toDateString() %><br>
-    their tower is <%= player.wogc.height.toFixed(1) %> meters tall, made with <%= player.wogc.ballCountAttached %> gooballs<br>
-    their highest tower ever is <%= (player.wogc.heightRecord || player.wogc.height).toFixed(1) %> meters tall<br>
-<% } else { %>
-    no player found
-<% } %>
+<% let allLevelsCompleted = levels.every(v => player.levels?.[v.id]) %>
+<div class="content">
+    <% if (player) { %>
+        <span><%= player.name %> - joined <%= new Date(player.created || 0).toDateString() %></span>
+        <span>their tower is <%= player.wogc.height.toFixed(1) %> meters tall, made with <%= player.wogc.ballCountAttached %> gooballs</span>
+        <span>their highest tower ever is <%= (player.wogc.heightRecord || player.wogc.height).toFixed(1) %> meters tall</span>
+        <br>
+        <% if (allLevelsCompleted) { %>
+            <!-- todo -->
+        <% } else { %>
+            <span>levels to complete:</span>
+            <ul>
+                <% for (let level of levels) { %>
+                    <% if (!player.levels?.[level.id]) { %>
+                        <li><a href="/level/<%= level.id %>"><%= level.name %></a></li>
+                    <% } %>
+                <% } %>
+            </ul>
+        <% } %>
+    <% } else { %>
+        no player found
+    <% } %>
+</div>
