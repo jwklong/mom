@@ -135,7 +135,8 @@ const server = http.createServer((req, res) => {
       }
       case "GetWogcStats": {
         let player = requestPlayer(params.playerkey)
-
+        if (player) player.wogc.lastUpdated = Date.now()
+        
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/xml')
         res.end(`<WogResponse result="OK"><list>${data.players.filter(v => v !== player && (!params.height || Math.abs(v.wogc.height - Number(params.height)) <= 10)).map(v => {
