@@ -2,7 +2,7 @@
 <%- include('components/header') %>
 
 <% let player = data.players.find(v => v.id == id) %>
-<% let allLevelsCompleted = levels.every(v => player.levels?.[v.id]) %>
+<% let allLevelsCompleted = Object.keys(levels).every(v => player.levels?.[v]) %>
 <div class="content">
     <% if (player) { %>
         <span><%= player.name %> - joined <%= new Date(player.created || 0).toDateString() %></span>
@@ -14,9 +14,9 @@
         <% } else { %>
             <span>levels to complete:</span>
             <ul>
-                <% for (let level of levels) { %>
-                    <% if (!player.levels?.[level.id]) { %>
-                        <li><a href="/level/<%= level.id %>"><%= level.name %></a></li>
+                <% for (let [id, level] of Object.entries(level)) { %>
+                    <% if (!player.levels?.[id]) { %>
+                        <li><a href="/level/<%= id %>"><%= level.name %></a></li>
                     <% } %>
                 <% } %>
             </ul>
