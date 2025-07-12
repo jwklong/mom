@@ -14,7 +14,7 @@
         <% } else { %>
             <span>levels to complete:</span>
             <ul>
-                <% for (let [id, level] of Object.entries(level)) { %>
+                <% for (let [id, level] of Object.entries(levels)) { %>
                     <% if (!player.levels?.[id]) { %>
                         <li><a href="/level/<%= id %>"><%= level.name %></a></li>
                     <% } %>
