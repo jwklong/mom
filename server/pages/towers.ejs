@@ -7,7 +7,7 @@
         columns: [
             {
                 name: 'name',
-                value: v => `<a href="/player/${v.id}">${v.name}</a>`
+                value: v => `<a href="/player/${v.id}">${htmlEncode(v.name)}</a>`
             }, {
                 name: 'height',
                 value: v => `${v.wogc.height.toFixed(1)}m`,
