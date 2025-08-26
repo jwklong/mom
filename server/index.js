@@ -72,16 +72,16 @@ const server = http.createServer((req, res) => {
 
     switch (params.op) {
       case "GetPlayerKey": {
-        if (!params.hwkey || !params.name) {
+        if (!params.hwkey || String(params.hwkey).length !== 32 || !params.name) {
           res.statusCode = 400
           res.end("Missing paramaters")
         }
 
         let player = {
-          cKey: params.hwkey,
+          cKey: String(params.hwkey),
           sKey: generateKey(),
 
-          name: params.name,
+          name: String(params.name),
           id: randomHex(32),
           country: geoip.lookup(ip)?.country ?? "XX",
           lastOnline: Date.now(),
