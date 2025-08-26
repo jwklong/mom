@@ -212,7 +212,7 @@ app.use((req, res, next) => {
   res.locals.query = req.query
   res.locals.levels = levels
   res.locals.connectAddress = argv.displayConnectAddress ?? `${ip.address()}:${backendPort}`
-  res.locals.htmlEncode = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&#34;')
+  res.locals.htmlEncode = (str) => String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&#34;')
   next()
 })
 
