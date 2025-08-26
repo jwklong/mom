@@ -16,6 +16,9 @@
                 name: 'record',
                 value: v => `${(v.wogc.heightRecord ?? v.wogc.height).toFixed(1)}m`,
                 sort: (a, b) => (b.wogc.heightRecord ?? b.wogc.height) - (a.wogc.heightRecord ?? a.wogc.height)
+            }, {
+                name: 'balls used',
+                value: v => `${v.wogc.ballCountAttached}`
             }
         ]
     })
