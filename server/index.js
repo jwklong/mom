@@ -72,7 +72,7 @@ const server = http.createServer((req, res) => {
 
     switch (params.op) {
       case "GetPlayerKey": {
-        if (!params.hwkey || String(params.hwkey).length !== 32 || !params.name) {
+        if (!params.hwkey || String(params.hwkey).length !== 32 || !params.name || String(params.name).length == 0) {
           res.statusCode = 400
           res.end("Missing paramaters")
         }
