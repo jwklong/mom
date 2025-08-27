@@ -18,7 +18,7 @@
                 sort: (p1, p2) => Object.keys(levels).reduce((a, b) => a + p1.levels[b].time.time - p2.levels[b].time.time, 0)
             }, {
                 name: 'moves',
-                value: v => Object.keys(levels).reduce((a, b) => a + v.levels[b].moves, 0),
+                value: v => Object.keys(levels).reduce((a, b) => a + v.levels[b].moves.moves, 0),
                 sort: (p1, p2) => Object.keys(levels).reduce((a, b) => a + p1.levels[b].moves.moves - p2.levels[b].moves.moves, 0)
             }
         ]
