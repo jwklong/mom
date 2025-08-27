@@ -12,7 +12,7 @@ const config = {
     connectTo: argv.connectTo
 }
 
-if (!["connect", "host"].includes(config.mode)) {
+if (!["connect", "host", "patch"].includes(config.mode)) {
     throw "Invalid mode"
 }
 
