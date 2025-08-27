@@ -21,5 +21,5 @@ const proxyOptions = {
 app.use('/', createProxyMiddleware(proxyOptions))
 
 app.listen(config.fromPort, () => {
-  console.log(`rerouting requests from ${config.fromPort} to ${config.to}`);
+  console.log(`rerouting requests from 127.0.0.1:${config.fromPort} to ${config.to}`);
 })

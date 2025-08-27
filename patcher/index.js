@@ -9,7 +9,8 @@ const argv = minimist(process.argv.slice(2))
 const config = {
     file: argv.file,
     mode: argv.mode ?? "host",
-    connectTo: argv.connectTo
+    connectTo: argv.connectTo,
+    hostPort: argv.hostPort ?? 3000
 }
 
 if (!["connect", "host", "patch"].includes(config.mode)) {
@@ -26,6 +27,10 @@ if (!config.file) {
     throw "Missing 'file' parameter"
 }
 
+if (String(config.hostPort).length !== 4) {
+    throw "Invalid 'hostPort' parameter, must be length 4"
+}
+
 if (fs.existsSync(config.file + '.backup')) {
     fs.rmSync(config.file, {force: true})
     fs.renameSync(config.file + '.backup', config.file)
@@ -37,7 +42,7 @@ if (!fs.existsSync(config.file)) {
 
 const replacers = {
     "https://": "127.0.0.",
-    "worldofgoo.com": "1:3000/wogsrvr"
+    "worldofgoo.com": `1:${config.hostPort}/wogsrvr`
 }
 
 let writeFile
@@ -74,7 +79,7 @@ fs.cpSync(path.join(__dirname, "res"), path.join(path.dirname(writeFile), "res")
 
 let jsProcess
 process.on('SIGINT', () => {
-    jsProcess.kill()
+    if (jsProcess) jsProcess.kill()
     fs.rmSync(writeFile)
     fs.copyFileSync(writeFile + '.backup', writeFile)
     fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
@@ -83,10 +88,10 @@ process.on('SIGINT', () => {
 try {
     switch (config.mode) {
         case "connect":
-            jsProcess = exec(`node ${__dirname}/../router/index.js --to ${config.connectTo}`)
+            jsProcess = exec(`node ${__dirname}/../router/index.js --to ${config.connectTo} --fromPort ${config.hostPort}`)
             break
         case "host":
-            jsProcess = exec(`node ${__dirname}/../server/index.js`)
+            jsProcess = exec(`node ${__dirname}/../server/index.js --backendPort ${config.hostPort}`)
             break
     }
 
@@ -96,7 +101,7 @@ try {
         })
     } catch {}
 
-    jsProcess.kill()
+    if (jsProcess) jsProcess.kill()
 } catch (e) {
     console.error(e)
 }
