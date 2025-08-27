@@ -227,7 +227,7 @@ app.get('/towers', (req, res) => {
 })
 
 app.get('/players', (req, res) => {
-  res.render(path.join(__dirname, '/pages/towers.ejs'))
+  res.render(path.join(__dirname, '/pages/players.ejs'))
 })
 
 app.get('/levels', (req, res) => {
