@@ -47,7 +47,7 @@ const replacers = {
 }
 
 let writeFile
-if (process.platform == 'linux') {
+if (process.platform == 'linux' && !config.file.endsWith(".exe")) {
     if (fs.existsSync(config.file + '.bin')) { //1.40
         writeFile = config.file + '.bin'
     } else { //1.41
