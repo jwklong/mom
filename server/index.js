@@ -191,6 +191,11 @@ const server = http.createServer((req, res) => {
         res.end(``)
         break
       }
+      case "ValidateLicenseKey": {
+        res.statusCode = 200
+        res.end(`<WogResponse result="OK"></WogResponse>`)
+        break
+      }
       default: {
         res.statusCode = 400
         res.end("Unknown op code")

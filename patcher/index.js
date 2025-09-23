@@ -10,7 +10,8 @@ const config = {
     file: argv.file,
     mode: argv.mode ?? "host",
     connectTo: argv.connectTo,
-    hostPort: argv.hostPort ?? 3000
+    hostPort: argv.hostPort ?? 3000,
+    dontPlay: argv.dontPlay ? true : false
 }
 
 if (!["connect", "host", "patch"].includes(config.mode)) {
@@ -76,6 +77,10 @@ fs.renameSync(writeFile, writeFile + '.backup')
 fs.writeFileSync(writeFile, buffer)
 fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
 fs.cpSync(path.join(__dirname, "res"), path.join(path.dirname(writeFile), "res"), { recursive: true, force: true })
+
+if (config.dontPlay) {
+    process.exit()
+}
 
 let jsProcess
 process.on('SIGINT', () => {
