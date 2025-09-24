@@ -43,6 +43,7 @@ if (!fs.existsSync(config.file)) {
 
 const replacers = {
     "https://": "127.0.0.",
+    "www.worldofgoo.com": `1:${config.hostPort}/wogsrvrabcd`,
     "worldofgoo.com": `1:${config.hostPort}/wogsrvr`
 }
 
@@ -68,9 +69,7 @@ for (const key in replacers) {
     const replaceBuffer = Buffer.from(value, 'ascii')
     
     let index = buffer.indexOf(findBuffer)
-    if (index == -1) throw "Invalid file"
-
-    replaceBuffer.copy(buffer, index)
+    if (index !== -1) replaceBuffer.copy(buffer, index)
 }
 
 fs.renameSync(writeFile, writeFile + '.backup')
