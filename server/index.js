@@ -75,6 +75,7 @@ const server = http.createServer((req, res) => {
         if (!params.hwkey || String(params.hwkey).length !== 32 || !params.name || String(params.name).length == 0) {
           res.statusCode = 400
           res.end("Missing paramaters")
+          break
         }
 
         let player = {
@@ -193,6 +194,7 @@ const server = http.createServer((req, res) => {
       }
       case "ValidateLicenseKey": {
         res.statusCode = 200
+        res.setHeader('Content-Type', 'application/xml')
         res.end(`<WogResponse result="OK"></WogResponse>`)
         break
       }
