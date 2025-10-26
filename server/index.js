@@ -66,7 +66,12 @@ const server = http.createServer((req, res) => {
   });
 
   req.on('end', () => {
-    console.log(req, res, body)
+    if (req.url.endsWith("/update")) {
+      console.log("update attempted")
+      res.statusCode = 200
+      res.end("wognoupdate")
+      return
+    }
 
     let params = Object.fromEntries(decodeURIComponent(body).split("&").map(v => v.split("=")))
 
