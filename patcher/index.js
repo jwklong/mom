@@ -44,7 +44,9 @@ if (!fs.existsSync(config.file)) {
 const replacers = {
     "https://": "127.0.0.",
     "www.worldofgoo.com": `1:${config.hostPort}/wogsrvrabcd`,
-    "worldofgoo.com": `1:${config.hostPort}/wogsrvr`
+    "worldofgoo.com": `1:${config.hostPort}/wogsrvr`,
+    "2dboy.com": `1:${config.hostPort}/wog`,
+    "/wogupdate/latest": `/wogsrvrab/update`,
 }
 
 let writeFile

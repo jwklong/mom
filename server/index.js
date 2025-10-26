@@ -66,6 +66,8 @@ const server = http.createServer((req, res) => {
   });
 
   req.on('end', () => {
+    console.log(req, res, body)
+
     let params = Object.fromEntries(decodeURIComponent(body).split("&").map(v => v.split("=")))
 
     console.log(params)
