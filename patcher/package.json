@@ -1,0 +1,8 @@
+{
+    "name": "patcher",
+    "type": "module",
+    "dependencies": {
+        "minimist": "^1.2.8",
+        "utils": "workspace:*"
+    }
+}

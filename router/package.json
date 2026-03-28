@@ -1,0 +1,10 @@
+{
+    "name": "router",
+    "type": "module",
+    "dependencies": {
+        "express": "^5.2.1",
+        "http-proxy-middleware": "^3.0.5",
+        "minimist": "^1.2.8",
+        "utils": "workspace:*"
+    }
+}

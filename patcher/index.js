@@ -1,120 +1,36 @@
-import { exec, execFileSync } from 'child_process'
-import fs from 'fs'
-import minimist from 'minimist'
-import path from 'path'
-import url from 'url'
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
-const argv = minimist(process.argv.slice(2))
+import utils from 'utils';
 
-const config = {
-    file: argv.file,
-    mode: argv.mode ?? "host",
-    connectTo: argv.connectTo,
-    hostPort: argv.hostPort ?? 3000,
-    dontPlay: argv.dontPlay ? true : false
-}
+const executableEnum = utils.executableInfo.executableEnum
 
-if (!["connect", "host", "patch"].includes(config.mode)) {
-    throw "Invalid mode"
-}
-
-if (config.mode == "connect") {
-    if (!config.connectTo) {
-        throw "Missing 'connectTo' parameter"
+export function patch(buffer, port, force = false) {
+    let version = utils.executableInfo.getExecutableVersion(buffer)
+    if (version === executableEnum.UNKNOWN) {
+        utils.logger.error(`Unknown executable version (hash: ${utils.executableInfo._getHash(buffer)})\nPlease check that the file you have entered is correct`);
+        process.exit(1);
     }
-}
+    let executableInfo = utils.executableInfo.executableInfo[version];
+    utils.logger.info(`Version: ${executableInfo.name}`);
 
-if (!config.file) {
-    throw "Missing 'file' parameter"
-}
-
-if (String(config.hostPort).length !== 4) {
-    throw "Invalid 'hostPort' parameter, must be length 4"
-}
-
-if (fs.existsSync(config.file + '.backup')) {
-    fs.rmSync(config.file, {force: true})
-    fs.renameSync(config.file + '.backup', config.file)
-}
-
-if (!fs.existsSync(config.file)) {
-    throw "File does not exist"
-}
-
-const replacers = {
-    "https://": "127.0.0.",
-    "www.worldofgoo.com": `1:${config.hostPort}/wogsrvrabcd`,
-    "worldofgoo.com": `1:${config.hostPort}/wogsrvr`,
-    "http://": "127.0.0",
-    "2dboy.com": `.1:${config.hostPort}/w`,
-    "/wogupdate/latest": `ogsrvrabcd/update`,
-}
-
-let writeFile
-if (process.platform == 'linux' && !config.file.endsWith(".exe")) {
-    if (fs.existsSync(config.file + '.bin')) { //1.40
-        writeFile = config.file + '.bin'
-    } else { //1.41
-        if (process.arch == 'x64') {
-            writeFile = config.file + '.bin64'
+    utils.logger.info(`Patched 0/${executableInfo.replacements.length}`);
+    let i = 0;
+    for (const [find, replace] of executableInfo.replacements) {
+        i += 1;
+        const findBuffer = Buffer.from(find, 'ascii');
+        const replaceBuffer = Buffer.from(replace(port), 'ascii');
+    
+        let index = buffer.indexOf(findBuffer);
+        if (index === -1) {
+            if (!force) {
+                utils.logger.error(`Failed to patch (${i}/${executableInfo.replacements.length})`);
+                process.exit(1);
+            } else {
+                utils.logger.warn(`Failed to patch (${i}/${executableInfo.replacements.length})`);
+            }
         } else {
-            writeFile = config.file + '.bin32'
+            replaceBuffer.copy(buffer, index);
+            utils.logger.info(`Patched ${i}/${executableInfo.replacements.length}`);
         }
     }
-} else {
-    writeFile = config.file
+
+    return buffer;
 }
-let buffer = fs.readFileSync(writeFile)
-let originalBuffer = fs.readFileSync(writeFile)
-for (const key in replacers) {
-    const value = replacers[key]
-    const findBuffer = Buffer.from(key, 'ascii')
-    const replaceBuffer = Buffer.from(value, 'ascii')
-    
-    let index = buffer.indexOf(findBuffer)
-    if (index !== -1) replaceBuffer.copy(buffer, index)
-}
-
-fs.renameSync(writeFile, writeFile + '.backup')
-fs.writeFileSync(writeFile, buffer)
-fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
-fs.cpSync(path.join(__dirname, "res"), path.join(path.dirname(writeFile), "res"), { recursive: true, force: true })
-
-if (config.dontPlay) {
-    process.exit()
-}
-
-let jsProcess
-process.on('SIGINT', () => {
-    if (jsProcess) jsProcess.kill()
-    fs.rmSync(writeFile)
-    fs.copyFileSync(writeFile + '.backup', writeFile)
-    fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
-    fs.rmSync(writeFile + '.backup')
-})
-try {
-    switch (config.mode) {
-        case "connect":
-            jsProcess = exec(`node ${__dirname}/../router/index.js --to ${config.connectTo} --fromPort ${config.hostPort}`)
-            break
-        case "host":
-            jsProcess = exec(`node ${__dirname}/../server/index.js --backendPort ${config.hostPort}`)
-            break
-    }
-
-    try {
-        execFileSync(config.file, {
-            "cwd": path.dirname(config.file)
-        })
-    } catch {}
-
-    if (jsProcess) jsProcess.kill()
-} catch (e) {
-    console.error(e)
-}
-
-fs.rmSync(writeFile)
-fs.copyFileSync(writeFile + '.backup', writeFile)
-fs.chmodSync(writeFile, fs.constants.S_IRWXU | fs.constants.S_IRWXO)
-fs.rmSync(writeFile + '.backup')
-process.exit()

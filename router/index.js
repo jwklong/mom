@@ -1,25 +1,25 @@
-import express from 'express'
-import { createProxyMiddleware } from 'http-proxy-middleware'
-import minimist from 'minimist'
-const argv = minimist(process.argv.slice(2))
+import express from 'express';
+import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
+import utils from 'utils';
 
-const app = express()
+export function router(fromPort, to) {
+    const app = express();
 
-const config = {
-  fromPort: argv.fromPort ?? 3000,
-  to: argv.to
+    app.use('/', express.urlencoded({ extended: true }));
+    app.use('/', (req, res, next) => {
+        utils.logger.info(`Rerouted request (${req.body.op})`);
+        next();
+    });
+
+    app.use('/', createProxyMiddleware({
+        target: to,
+        changeOrigin: true,
+        on: {
+            proxyReq: fixRequestBody
+        }
+    }));
+
+    app.listen(fromPort, () => {
+        utils.logger.info(`Rerouting requests from 127.0.0.1:${fromPort} to ${to}`);
+    });
 }
-
-if (!config.to) {
-  throw "Missing 'to' parameter"
-}
-
-const proxyOptions = {
-  target: config.to,
-  changeOrigin: true
-}
-app.use('/', createProxyMiddleware(proxyOptions))
-
-app.listen(config.fromPort, () => {
-  console.log(`rerouting requests from 127.0.0.1:${config.fromPort} to ${config.to}`);
-})
