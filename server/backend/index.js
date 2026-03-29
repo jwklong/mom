@@ -1,10 +1,16 @@
 import express from 'express';
 import utils from 'utils';
 import minimist from 'minimist';
+import path from 'node:path';
+import url from 'node:url';
+import cors from 'cors';
 
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+let argv = minimist(process.argv.slice(2));
 const randomHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
-let argv = minimist(process.argv.slice(3));
+const db = new utils.db.Database();
+await db.init(argv.dbPath || path.join(__dirname, '..', '..', 'database.json'));
 
 let port = 3000;
 if (argv.backendPort) {
@@ -21,9 +27,19 @@ if (argv.backendPort) {
 
 const app = express();
 
-app.use('/', express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json());
+import api from './api/index.js';
+(await api()).forEach(route => route({ app, db }));
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/', (req, res, next) => {
+    if (!req.body || !req.body.op) {
+        res.status(404).end();
+        return;
+    }
+
     utils.logger.info(`Received request (${req.body.op})`);
 
     switch (req.body.op) {

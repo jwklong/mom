@@ -1,5 +1,8 @@
 {
     "name": "utils",
     "main": "index.js",
-    "type": "module"
+    "type": "module",
+    "dependencies": {
+        "lowdb": "^7.0.1"
+    }
 }
